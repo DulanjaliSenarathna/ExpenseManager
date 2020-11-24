@@ -23,6 +23,7 @@
         app:menu="@menu/navmenu"
         android:id="@+id/navView"
         app:headerLayout="@layout/nav_header"
+        app:itemTextColor="@color/nav_header"
         android:fitsSystemWindows="true"
         android:layout_height="match_parent"/>
 
