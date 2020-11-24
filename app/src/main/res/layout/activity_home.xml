@@ -22,7 +22,7 @@
         android:layout_gravity="start"
         app:menu="@menu/navmenu"
         android:id="@+id/navView"
-        app:headerLayout="@color/nav_header"
+        app:headerLayout="@layout/nav_header"
         android:fitsSystemWindows="true"
         android:layout_height="match_parent"/>
 
