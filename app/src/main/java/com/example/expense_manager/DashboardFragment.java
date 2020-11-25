@@ -15,12 +15,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.expense_manager.Model.Data;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 
 /**
@@ -45,7 +50,7 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        addData();
+
         // Inflate the layout for this fragment
         View myview =  inflater.inflate(R.layout.fragment_dashboard, container, false);
 
@@ -69,6 +74,8 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
         fab_main_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                addData();
 
                 if(isOpen)
                 {
@@ -153,6 +160,15 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
                     edtNote.setError("Required Filed..");
                     return;
                 }
+
+                String id = mIncomeDatabase.push().getKey();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(ouramountint,type,note,id,mDate);
+
+                mIncomeDatabase.child(id).setValue(data);
+                Toast.makeText(getActivity(), "Data Added", Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
             }
         });
 
