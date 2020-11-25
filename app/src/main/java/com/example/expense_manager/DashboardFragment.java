@@ -107,6 +107,33 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
         return myview;
     }
 
+    private void ftAnimation(){
+        if(isOpen)
+        {
+            fab_income_btn.startAnimation(FadClose);
+            fab_expense_btn.startAnimation(FadClose);
+            fab_income_btn.setClickable(false);
+            fab_expense_btn.setClickable(false);
+
+            fab_income_txt.startAnimation(FadClose);
+            fab_expense_txt.startAnimation(FadClose);
+            fab_income_txt.setClickable(false);
+            fab_expense_txt.setClickable(false);
+            isOpen=false;
+        }else {
+            fab_income_btn.startAnimation(FadOpen);
+            fab_expense_btn.startAnimation(FadOpen);
+            fab_income_btn.setClickable(true);
+            fab_expense_btn.setClickable(true);
+
+            fab_income_txt.startAnimation(FadOpen);
+            fab_expense_txt.startAnimation(FadOpen);
+            fab_income_txt.setClickable(true);
+            fab_expense_txt.setClickable(true);
+            isOpen=false;
+        }
+    }
+
     private void addData(){
         fab_income_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +145,7 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
         fab_expense_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                expenseDataInsert();
             }
         });
     }
@@ -129,6 +156,8 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
         View myviewm = inflater.inflate(R.layout.custom_layout_for_insertdata,null);
         mydialog.setView(myviewm);
         final AlertDialog dialog = mydialog.create();
+
+        dialog.setCancelable(false);
 
         final EditText edtAmount = myviewm.findViewById(R.id.amount_edt);
         final EditText edtType = myviewm.findViewById(R.id.type_edt);
@@ -166,8 +195,9 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
                 Data data = new Data(ouramountint,type,note,id,mDate);
 
                 mIncomeDatabase.child(id).setValue(data);
-                Toast.makeText(getActivity(), "Data Added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "DATA ADDED", Toast.LENGTH_SHORT).show();
 
+                ftAnimation();
                 dialog.dismiss();
             }
         });
@@ -175,6 +205,61 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ftAnimation();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void expenseDataInsert(){
+        AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+        View myview = inflater.inflate(R.layout.custom_layout_for_insertdata,null);
+        mydialog.setView(myview);
+        final AlertDialog dialog = mydialog.create();
+
+        dialog.setCancelable(false);
+
+        final EditText amount = myview.findViewById(R.id.amount_edt);
+        final EditText type = myview.findViewById(R.id.type_edt);
+        final EditText note = myview.findViewById(R.id.note_edt);
+
+        Button btnSave = myview.findViewById(R.id.btnSave);
+        Button btnCancel = myview.findViewById(R.id.btnCancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String tmAmount = amount.getText().toString().trim();
+                String tmtype = type.getText().toString().trim();
+                String tmnote = note.getText().toString().trim();
+
+                if(TextUtils.isEmpty(tmAmount)){
+                    amount.setError("Required Field");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(tmtype)){
+                    type.setError("Required Field");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(tmnote)){
+                    note.setError("Required Field");
+                    return;
+                }
+                ftAnimation();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ftAnimation();
                 dialog.dismiss();
             }
         });
