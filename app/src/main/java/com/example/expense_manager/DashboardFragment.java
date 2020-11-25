@@ -32,6 +32,8 @@ private Animation FadOpen,FadClose;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        addData();
         // Inflate the layout for this fragment
         View myview =  inflater.inflate(R.layout.fragment_dashboard, container, false);
 
@@ -77,6 +79,22 @@ private Animation FadOpen,FadClose;
         });
 
         return myview;
+    }
+
+    private void addData(){
+        fab_income_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        fab_expense_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 
 }
