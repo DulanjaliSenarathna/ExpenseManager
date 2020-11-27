@@ -243,6 +243,8 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
                     return;
                 }
 
+                int inamount = Integer.parseInt(tmAmount);
+
                 if(TextUtils.isEmpty(tmtype)){
                     type.setError("Required Field");
                     return;
@@ -252,7 +254,16 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
                     note.setError("Required Field");
                     return;
                 }
+
+                String id = mExpenseDatabase.push().getKey();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+                Data data = new Data(inamount,tmtype,tmnote,id,mDate);
+
+                mExpenseDatabase.child(id).setValue(data);
+                Toast.makeText(getActivity(), "DATA ADDED", Toast.LENGTH_SHORT).show();
+
                 ftAnimation();
+                dialog.dismiss();
             }
         });
 
