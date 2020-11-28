@@ -1,6 +1,7 @@
 package com.example.expense_manager;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.expense_manager.Model.Data;
@@ -35,6 +38,10 @@ public class IncomeFragment extends Fragment {
     private RecyclerView recyclerView;
 
     TextView incomeTotalSum;
+
+    private EditText edtAmount,edtType,edtNote;
+
+    private Button btnUpdate,btnDelete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +110,13 @@ public class IncomeFragment extends Fragment {
             myViewHolder.setDate(data.getDate());
             myViewHolder.setAmount(data.getAmount());
 
+            myViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    updateDataItem();
+                }
+            });
+
             }
         };
 
@@ -139,5 +153,38 @@ public class IncomeFragment extends Fragment {
             String stamount = String.valueOf(amount);
             mAmount.setText(stamount);
         }
+    }
+
+    private void updateDataItem(){
+        AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+        View myview = inflater.inflate(R.layout.update_data_item,null);
+        mydialog.setView(myview);
+
+        edtAmount=myview.findViewById(R.id.amount_edt);
+        edtType=myview.findViewById(R.id.type_edt);
+        edtNote=myview.findViewById(R.id.note_edt);
+
+        btnUpdate=myview.findViewById(R.id.btn_upd_update);
+        btnDelete=myview.findViewById(R.id.btnUp_Delete);
+
+        final AlertDialog dialog = mydialog.create();
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
