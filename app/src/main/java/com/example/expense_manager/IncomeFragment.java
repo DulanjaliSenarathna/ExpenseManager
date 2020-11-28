@@ -43,6 +43,11 @@ public class IncomeFragment extends Fragment {
 
     private Button btnUpdate,btnDelete;
 
+    private String type,note;
+    private int amount;
+
+    private String post_key;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,7 +108,7 @@ public class IncomeFragment extends Fragment {
                 mIncomeDatabase
         ) {
             @Override
-            protected void populateViewHolder(MyViewHolder myViewHolder, Data data, int i) {
+            protected void populateViewHolder(MyViewHolder myViewHolder, final Data data, final int i) {
 
             myViewHolder.setType(data.getType());
             myViewHolder.setNote(data.getNote());
@@ -113,6 +118,12 @@ public class IncomeFragment extends Fragment {
             myViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    post_key=getRef(i).getKey();
+
+                    type=data.getType();
+                    note=data.getNote();
+                    amount=data.getAmount();
                     updateDataItem();
                 }
             });
@@ -165,6 +176,15 @@ public class IncomeFragment extends Fragment {
         edtAmount=myview.findViewById(R.id.amount_edt);
         edtType=myview.findViewById(R.id.type_edt);
         edtNote=myview.findViewById(R.id.note_edt);
+
+        edtType.setText(type);
+        edtType.setSelection(type.length());
+
+        edtNote.setText(note);
+        edtNote.setSelection(note.length());
+
+        edtAmount.setText(String.valueOf(amount));
+        edtAmount.setSelection(String.valueOf(amount).length());
 
         btnUpdate=myview.findViewById(R.id.btn_upd_update);
         btnDelete=myview.findViewById(R.id.btnUp_Delete);
