@@ -2,6 +2,7 @@ package com.example.expense_manager;
 
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +37,7 @@ public class DashboardFragment extends Fragment {
 
 private FloatingActionButton fab_main_btn;
 private FloatingActionButton fab_income_btn,fab_expense_btn;
-
+private ImageButton logout;
 private TextView fab_income_txt,fab_expense_txt;
 
 private boolean isOpen = false;
@@ -65,11 +67,22 @@ private DatabaseReference mIncomeDatabase,mExpenseDatabase;
         fab_income_btn = myview.findViewById(R.id.income_ft_btn);
         fab_expense_btn = myview.findViewById(R.id.expense_ft_btn);
 
+        logout = myview.findViewById(R.id.logout);
+
         fab_income_txt = myview.findViewById(R.id.income_ft_text);
         fab_expense_txt = myview.findViewById(R.id.expense_ft_text);
 
         FadOpen = AnimationUtils.loadAnimation(getActivity(),R.anim.fade_open);
         FadClose = AnimationUtils.loadAnimation(getActivity(),R.anim.fade_close);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                view.getContext().startActivity(intent);
+            }
+        });
 
         fab_main_btn.setOnClickListener(new View.OnClickListener() {
             @Override
